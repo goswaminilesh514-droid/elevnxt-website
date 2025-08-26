@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ElevNxt — Growth Systems for Ambitious Brands</title>
+  <meta name="description" content="A modern SMMA one‑page website: services, case studies, pricing, testimonials, FAQ and contact. Built with semantic HTML, modern CSS and vanilla JS." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#07080d;         /* page background */
+      --card:#0e1018;       /* card background */
+      --muted:#a6a8b3;      /* muted text */
+      --text:#f6f7fb;       /* main text */
+      --brand-1:#7c6cff;    /* gradient start */
+      --brand-2:#ff6ec7;    /* gradient mid */
+      --brand-3:#00d4ff;    /* gradient end */
+      --accent:#84f3a9;     /* accent success */
+      --danger:#ff7b7b;     /* accent error */
+      --ring: 0 0 0 3px color-mix(in srgb, var(--brand-2) 30%, transparent);
+      --radius:24px;
+      --shadow: 0 20px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.02);
+      --grid-gap:20px;
+      --maxw:1200px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--text); background:radial-gradient(1000px 600px at 80% -10%, rgba(124,108,255,.15), transparent 60%), radial-gradient(800px 400px at -10% 10%, rgba(0,212,255,.15), transparent 55%), var(--bg);
+    }
+
+    /* Layout */
+    .container{max-width:var(--maxw); margin-inline:auto; padding:0 24px}
+    section{padding:88px 0}
+
+    /* Gradient text and buttons */
+    .gtext{background:linear-gradient(90deg,var(--brand-1),var(--brand-2),var(--brand-3)); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .btn{
+      display:inline-flex; align-items:center; gap:10px; border:0; padding:14px 18px; font-weight:600; color:#0b0b12; background:linear-gradient(90deg,var(--brand-1),var(--brand-2),var(--brand-3)); border-radius:14px; cursor:pointer; text-decoration:none; box-shadow:var(--shadow); transition:transform .15s ease, filter .15s ease;
+    }
+    .btn:hover{transform:translateY(-1px); filter:brightness(1.05)}
+    .btn.outline{color:var(--text); background:transparent; border:1px solid color-mix(in srgb, var(--text) 15%, transparent); box-shadow:none}
+    .btn.outline:hover{border-color:color-mix(in srgb, var(--text) 35%, transparent)}
+
+    /* Top nav */
+    .nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(10px); background:linear-gradient(180deg, rgba(7,8,13,.8), rgba(7,8,13,.5)); border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav .wrap{display:flex; align-items:center; justify-content:space-between; gap:14px; height:70px}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.2px}
+    .brand .logo{width:34px; height:34px; border-radius:10px; background:conic-gradient(from 0deg at 50% 50%, var(--brand-1), var(--brand-2), var(--brand-3), var(--brand-1)); box-shadow:0 0 0 3px rgba(255,255,255,.05)}
+    .navlinks{display:flex; gap:16px; align-items:center}
+    .navlinks a{color:var(--muted); text-decoration:none; font-weight:600; font-size:.95rem; padding:10px 12px; border-radius:10px}
+    .navlinks a:hover{color:var(--text); background:rgba(255,255,255,.05)}
+    .mobile-toggle{display:none}
+
+    /* Hero */
+    .hero{position:relative; overflow:hidden}
+    .hero .wrap{display:grid; grid-template-columns:1.2fr .8fr; gap:40px; align-items:center}
+    .badge{display:inline-flex; gap:8px; align-items:center; padding:8px 12px; border-radius:12px; background:rgba(255,255,255,.06); color:var(--muted); font-weight:600; border:1px solid rgba(255,255,255,.08)}
+    .h1{font-size:clamp(2rem, 5vw, 3.4rem); line-height:1.08; margin:14px 0 10px; letter-spacing:-.02em}
+    .lead{color:#cfd1dc; font-size:1.1rem}
+    .hero-ctas{display:flex; gap:12px; margin-top:26px; flex-wrap:wrap}
+    .metrics{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:30px}
+    .metric{background:var(--card); border-radius:16px; padding:16px; border:1px solid rgba(255,255,255,.06); box-shadow:var(--shadow)}
+    .metric b{font-size:1.4rem}
+
+    .mock{aspect-ratio: 16/10; border-radius:18px; background:linear-gradient(120deg, rgba(124,108,255,.25), rgba(0,212,255,.15)); border:1px solid rgba(255,255,255,.12); position:relative; box-shadow:var(--shadow)}
+    .mock::after{content:""; position:absolute; inset:14px; border-radius:14px; background:repeating-linear-gradient( 90deg, rgba(255,255,255,.06) 0 8px, transparent 8px 24px ); border:1px dashed rgba(255,255,255,.15)}
+
+    /* Sections */
+    .section-title{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:28px}
+    .section-title h2{margin:0; font-size:clamp(1.4rem,3.5vw,2rem)}
+    .grid{display:grid; grid-template-columns:repeat(12, 1fr); gap:var(--grid-gap)}
+
+    /* Service cards */
+    .card{grid-column: span 6; background:var(--card); border:1px solid rgba(255,255,255,.06); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow); position:relative; overflow:hidden}
+    .card .icon{width:44px; height:44px; display:grid; place-items:center; border-radius:12px; background:linear-gradient(90deg, var(--brand-1), var(--brand-2)); margin-bottom:12px; font-weight:900}
+    .card h3{margin:6px 0 8px}
+    .card ul{margin:10px 0 0; padding-left:18px; color:#c9cbd6}
+
+    /* Process timeline */
+    .timeline{grid-column: span 12; display:grid; gap:14px}
+    .step{display:grid; grid-template-columns:52px 1fr; gap:14px; align-items:flex-start; padding:16px; border-radius:16px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06)}
+    .step .dot{width:52px; height:52px; border-radius:14px; background:linear-gradient(135deg, var(--brand-2), var(--brand-3)); display:grid; place-items:center; font-weight:800}
+
+    /* Case studies */
+    .case{grid-column: span 4; background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.06); border-radius:18px; overflow:hidden}
+    .case .img{aspect-ratio: 16/10; background:linear-gradient(120deg, rgba(124,108,255,.25), rgba(0,212,255,.15))}
+    .case .body{padding:16px}
+
+    /* Pricing */
+    .pricing .card{grid-column: span 4}
+    .price{font-size:2.2rem; font-weight:800}
+    .pill{display:inline-block; font-size:.8rem; font-weight:700; letter-spacing:.02em; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.12); color:#dfe1ec}
+
+    /* Testimonials */
+    .testimonial{grid-column: span 6; background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.06); border-radius:18px; padding:20px}
+    .stars{letter-spacing:2px}
+
+    /* FAQ */
+    .faq .q{grid-column: span 6; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06); padding:18px; border-radius:14px}
+    .faq details{cursor:pointer}
+
+    /* Contact */
+    .contact .card{grid-column: span 7}
+    .contact .sidebar{grid-column: span 5; display:grid; gap:16px}
+    form{display:grid; gap:12px}
+    input, textarea, select{width:100%; padding:14px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0b0e16; color:var(--text); outline:none}
+    input:focus, textarea:focus, select:focus{box-shadow:var(--ring); border-color:rgba(255,255,255,.24)}
+    textarea{min-height:130px; resize:vertical}
+
+    /* Footer */
+    footer{padding:30px 0 60px; border-top:1px solid rgba(255,255,255,.06); color:#c5c7d2}
+    .foot{display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center}
+
+    /* Sticky CTA */
+    .sticky-cta{position:fixed; right:20px; bottom:20px; display:flex; gap:10px; z-index:60}
+
+    /* Reveal animations */
+    .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease}
+    .reveal.show{opacity:1; transform:none}
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero .wrap{grid-template-columns:1fr}
+      .metrics{grid-template-columns:1fr 1fr}
+      .case{grid-column: span 6}
+      .pricing .card{grid-column: span 6}
+      .testimonial{grid-column: span 12}
+      .contact .card{grid-column: span 12}
+      .contact .sidebar{grid-column: span 12}
+    }
+    @media (max-width: 680px){
+      .navlinks{display:none}
+      .mobile-toggle{display:flex; gap:10px}
+      .metrics{grid-template-columns:1fr}
+      .card, .case, .pricing .card, .faq .q{grid-column: span 12}
+      .foot{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+<!-- NAV -->
+<nav class="nav">
+  <div class="container wrap">
+    <div class="brand">
+      <img src="log.png" alt="ElevNxt Logo" style="height:40px; width:auto; margin-right:8px;">
+      ElevNxt
+    </div>
+    <div class="navlinks">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#work">Work</a>
+      <a href="#about">About Us</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact" class="btn" style="padding:10px 14px">Get Proposal</a>
+    </div>
+    <div class="mobile-toggle">
+      <a class="btn outline" href="#contact">Get Proposal</a>
+    </div>
+  </div>
+</nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <section class="container wrap">
+      <div>
+        <div ></div>
+        <h1 class="h1">We build <span class="gtext">profitable growth systems</span> for ambitious brands.</h1>
+        <p class="lead">Paid social, content and CRO working together — so your pipeline grows while you sleep.</p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn">Contact Us →</a>
+          <a href="#work" class="btn outline">See Case Studies</a>
+        </div>
+        <div class="metrics">
+          <div class="metric"><b>$1.73M+</b><br><span class="muted">Tracked client revenue</span></div>
+          <div class="metric"><b>3.7x</b><br><span class="muted">Average paid social ROAS</span></div>
+          <div class="metric"><b>87%</b><br><span class="muted">Clients retained 6+ months</span></div>
+        </div>
+      </div>
+      <div>
+  <img src="lo1.jpg" alt="Product mockup" style="max-width:100%; height:auto; border-radius:12px;">
+</div>
+    </section>
+  </header>
+
+  <!-- SERVICES -->
+ <section id="services" >
+  <div class="container">
+    <div class="section-title">
+      <h2>What we do</h2>
+      <span class="pill">End-to-end growth</span>
+    </div>
+    <div class="grid">
+      <article class="card reveal">
+        <div class="icon">📣</div>
+        <h3>Paid Social & UGC</h3>
+        <p>Full-funnel campaigns across Meta, TikTok & YouTube with creative that converts.</p>
+        <ul>
+          <li>Creative strategy & scriptwriting</li>
+          <li>Daily optimization & testing</li>
+          <li>ROAS & cohort reporting</li>
+        </ul>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon">📈</div>
+        <h3>Lead Gen Systems</h3>
+        <p>Landing pages, chat funnels & CRM automations that book meetings on autopilot.</p>
+        <ul>
+          <li>High-converting landing pages</li>
+          <li>Zapier/Make integrations</li>
+          <li>Calendly routing & reminders</li>
+        </ul>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon">🧭</div>
+        <h3>SEO & Content</h3>
+        <p>Technical fixes and topic clusters that compound your organic traffic.</p>
+        <ul>
+          <li>Technical & on-page SEO</li>
+          <li>Long-form content engine</li>
+          <li>Topical authority model</li>
+        </ul>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon">👥</div>
+        <h3>Social Media Management</h3>
+        <p>Scroll-stopping carousels & shorts posted natively across platforms.</p>
+        <ul>
+          <li>Monthly content calendar</li>
+          <li>Design, copy & scheduling</li>
+          <li>Analytics & reporting</li>
+        </ul>
+      </article>
+
+      <!-- NEW: Website Design & Development -->
+      <article class="card reveal">
+        <div class="icon">💻</div>
+        <h3>Website Design & Development</h3>
+        <p>Modern, responsive websites designed to engage visitors and drive conversions.</p>
+        <ul>
+          <li>User-friendly UI/UX design</li>
+          <li>Responsive & mobile-first builds</li>
+          <li>SEO-optimized structure</li>
+        </ul>
+      </article>
+
+      <!-- NEW: Brand Analysis -->
+      <article class="card reveal">
+        <div class="icon">🔍</div>
+        <h3>Brand Analysis</h3>
+        <p>In-depth research and positioning to strengthen your brand identity and market presence.</p>
+        <ul>
+          <li>Competitor & market research</li>
+          <li>Brand positioning strategy</li>
+          <li>Identity & tone of voice review</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+  <!-- PROCESS -->
+  <section id="process" style="background: linear-gradient(135deg, #000000, #20112c, #532b74); padding: 60px 20px; color: #fff;">
+    <div class="container">
+      <div class="section-title"><h2>Our process</h2><span class="pill">Fast, focused, transparent</span></div>
+      <div class="grid">
+        <div class="timeline">
+          <div class="step reveal"><div class="dot">1</div><div><h4>Discovery & Audit</h4><p>We map your funnel, analyze ad accounts and find quick wins.</p></div></div>
+          <div class="step reveal"><div class="dot">2</div><div><h4>Strategy & Forecast</h4><p>North‑star KPIs, budget plan and testing roadmap you can sign off.</p></div></div>
+          <div class="step reveal"><div class="dot">3</div><div><h4>Build & Launch</h4><p>Creative, audiences, tracking and landing pages — launched within 14 days.</p></div></div>
+          <div class="step reveal"><div class="dot">4</div><div><h4>Scale & Optimize</h4><p>Iterative testing, creative sprints and weekly revenue‑focused reviews.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- WORK --> 
+ <section id="work" style="background: linear-gradient(135deg,#42205e, #6e3585, #703f99); padding: 60px 20px; color: #fff;">
+  <div class="container"> 
+    <div class="section-title"> 
+      <h2>Recent wins</h2> 
+      <a class="btn outline" href="#contact">Request full deck</a> 
+    </div> 
+    <div class="grid"> 
+      <div class="testimonial reveal"> 
+        <h2> 320% ROAS in 60 Days</h3> 
+        <p>Scaled a fashion e-commerce brand through TikTok Ads.</p> 
+      </div> 
+      <div class="testimonial reveal"> 
+        <h2> 5,000+ Leads Generated</h3> 
+        <p>Built an automated funnel for an online coaching business.</p> 
+      </div> 
+      <div class="testimonial reveal"> 
+        <h2> International Expansion</h3> 
+        <p>Helped a SaaS startup gain users in 12 new countries.</p> 
+      </div> 
+      <div class="testimonial reveal"> 
+        <h2> Ranked #1 on Google</h3> 
+        <p>SEO campaign pushed a local service to the top for 15 keywords.</p> 
+      </div> 
+      <div class="testimonial reveal"> 
+        <h2> $1.2M Sales in Q2</h3> 
+        <p>Scaled paid social campaigns for a consumer electronics brand.</p> 
+      </div> 
+      <div class="testimonial reveal"> 
+        <h2> 65% Lower CPA</h3> 
+        <p>Optimized ad spend for a fintech company, boosting efficiency.</p> 
+      </div> 
+      <div class="testimonial reveal"> 
+        <h2> Viral Content Growth</h3> 
+        <p>Grew an Instagram account from 8k → 95k followers in 4 months.</p> 
+      </div> 
+      <div class="testimonial reveal"> 
+        <h2> 40% Increase in Retention</h3> 
+        <p>Email + content strategy boosted client loyalty for a subscription brand.</p> 
+      </div> 
+    </div> 
+  </div> 
+</section>
+
+<style>
+  #work .card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease;
+  }
+
+  #work .card.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #work .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    background: rgba(255, 255, 255, 0.2);
+  }
+</style>
+
+<script>
+  // Reveal on scroll animation
+  const revealElements = document.querySelectorAll('.reveal');
+  window.addEventListener('scroll', () => {
+    for (let el of revealElements) {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 100) {
+        el.classList.add('active');
+      }
+    }
+  });
+</script>
+
+
+<!-- ABOUT US -->
+<section id="about" style="background: linear-gradient(135deg,#6e3585, #356d85, #1b3a47); padding: 60px 20px; color: #ffffff;">
+  <div class="container">
+    <div class="section-title">
+      <h2>About Us</h2>
+      
+    </div>
+    <div class="grid">
+      <article class="testimonial reveal" style="grid-column: span 12;">
+        <h4>At ElevNxt, we’re more than just a social media marketing agency — we’re growth partners.</h3>
+        <p>
+          Our mission is simple: help businesses capture attention, generate leads,
+          and convert them into loyal customers.
+        </p>
+        <p>
+          We combine <b>data-driven advertising</b> with <b>creative content</b> to deliver strategies
+          that don’t just look good, but actually work. Whether it’s building a strong brand presence,
+          running high-performing ad campaigns, or creating scroll-stopping content, we focus on results
+          that matter to you: more visibility, more engagement, and more sales.
+        </p>
+        <p>
+          Our team is passionate about staying ahead of trends, testing what works, and bringing proven
+          strategies to every client we work with. No cookie-cutter approaches — just tailored solutions
+          designed to help your business grow.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" style="background: linear-gradient(135deg,#356d85, #0f2027,#0f2027); padding: 60px 20px; color: #ffffff;">
+    <div class="container">
+      <div class="section-title"><h2>Clients say nice things</h2></div>
+      <div class="grid">
+        <article class="testimonial reveal">
+          <div class="stars">★★★★★</div>
+          <p>“Within 60 days we were profitable on ads — calls doubled and the team actually understood our unit economics.”</p>
+          <div class="muted">— Aarti K., Clinic Owner</div>
+        </article>
+        <article class="testimonial reveal">
+          <div class="stars">★★★★★</div>
+          <p>“They built our UGC pipeline and creative testing system. CAC went down 32% while revenue grew.”</p>
+          <div class="muted">— Rahul S., DTC Founder</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="faq" style="background: linear-gradient(135deg,#0f2027, #0f2027, #0f2027); padding: 60px 20px; color: #ffffff;">
+    <div class="container">
+      <div class="section-title"><h2>FAQ</h2></div>
+      <div class="grid">
+        <div class="q reveal">
+          <details>
+            <summary><b>How fast can we launch?</b></summary>
+            <p>Typically 10–14 days for a fresh build. If your tracking and assets are ready, faster.</p>
+          </details>
+        </div>
+        <div class="q reveal">
+          <details>
+            <summary><b>Do you work on performance?</b></summary>
+            <p>Yes. Most retainers include a base + performance bonus tied to revenue or qualified pipeline.</p>
+          </details>
+        </div>
+        <div class="q reveal">
+          <details>
+            <summary><b>What’s included in reporting?</b></summary>
+            <p>Weekly KPI snapshot (ROAS, CAC, MER) and monthly deep‑dive with tests, learnings and next steps.</p>
+          </details>
+        </div>
+        <div class="q reveal">
+          <details>
+            <summary><b>Can you create UGC for us?</b></summary>
+            <p>We can source creators and manage briefs, edits and rights usage as an add‑on.</p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact" style="background: linear-gradient(135deg,#0f2027, #0f2027, #000000); padding: 60px 20px; color: #ffffff;">
+    <div class="container">
+      <div class="section-title"><h2>Let’s build your growth system</h2></div>
+      <div class="grid">
+      <article class="card reveal">
+  <form id="contact-form" action="https://formspree.io/f/xeolqazp" method="POST" class="grid" style="grid-template-columns:repeat(12, 1fr); gap:12px">
+
+    <div style="grid-column:span 6">
+      <input type="text" name="name" placeholder="Your name" required>
+    </div>
+
+    <div style="grid-column:span 6">
+      <input type="email" name="_replyto" placeholder="Your email" required>
+    </div>
+
+    <div style="grid-column:span 12">
+      <textarea name="message" placeholder="Write your question or work details" rows="5" required></textarea>
+    </div>
+
+    <!-- Hidden field for your email -->
+    <input type="hidden" name="_to" value="hello@elevnxtmedia.in">
+
+    <div style="grid-column:span 12">
+      <button class="btn" type="submit">Send Message</button>
+      <span id="form-status" class="muted" style="margin-left:10px"></span>
+    </div>
+  </form>
+</article>
+
+       <aside class="sidebar reveal"
+  style="
+    /* center this grid item inside the .grid */
+    place-self: center;              /* shorthand = justify-self + align-self */
+    /* layout inside the sidebar */
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  ">
+
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/elevnxt/?utm_source=ig_web_button_share_sheet" target="_blank" rel="noopener"
+     style="display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text); justify-content:center;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" width="30">
+    <span>Instagram</span>
+  </a>
+
+  <!-- Telegram -->
+  <a href="https://t.me/ElevNxt" target="_blank" rel="noopener"
+     style="display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text); justify-content:center;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" width="30">
+    <span>Telegram</span>
+  </a>
+
+  <!-- Email -->
+  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@elevnxtmedia.in" target="_blank"
+     style="display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text); justify-content:center;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Gmail_Icon.png" alt="Email" width="30">
+    <span>Email</span>
+  </a>
+
+  <!-- Worldwide (non-link) -->
+  <div style="display:flex;  ;">
+    <span style="font-size:28px;"></span>
+    <span>🌍 Helping Businesses Worldwide</span>
+  </div>
+</aside>
+
+
+
+
+      </div>
+    </div>
+  </section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container foot">
+    <div>© <span id="year"></span> ElevNxt · All rights reserved</div>
+    <div>
+      <a href="privacy.html" class="muted" style="margin-right:12px" target="_blank">Privacy Policy</a>
+      <a href="terms.html" class="muted" target="_blank">Terms & Conditions</a>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Sticky CTA buttons -->
+  <div class="sticky-cta">
+    <a class="btn" href="#contact" aria-label="Book a call">Contact Us</a>
+   
+  </div>
+
+  <script>
+    // Utility: reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); } });
+    },{rootMargin:"-50px 0px -50px 0px", threshold:.15});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Contact form (front‑end only). Replace with your endpoint.
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('formStatus');
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      status.textContent = 'Sending…';
+      const data = Object.fromEntries(new FormData(form).entries());
+      try{
+        // Example: send to a Google Apps Script / Formspree / your backend
+        // const res = await fetch('YOUR_ENDPOINT', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)});
+        // if(!res.ok) throw new Error('Network');
+        await new Promise(r=>setTimeout(r, 900)); // fake delay
+        status.textContent = 'Thanks! We\'ll be in touch.';
+        form.reset();
+      }catch(err){
+        status.textContent = 'Something went wrong. Try WhatsApp?';
+        status.style.color = 'var(--danger)';
+      }
+    });
+
+    // Smooth anchor fix for close proximity
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href');
+        if(id.length > 1){
+          const el = document.querySelector(id);
+          if(el){ e.preventDefault(); window.scrollTo({top: el.offsetTop - 64, behavior:'smooth'}); }
+        }
+      });
+    });
+  </script>
+<script>
+  const form = document.getElementById("contact-form");
+  const status = document.getElementById("form-status");
+
+  form.addEventListener("submit", async function(event) {
+    event.preventDefault();
+    const data = new FormData(form);
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        status.innerHTML = "✅ Message sent successfully!";
+        status.style.color = "lightgreen";
+        form.reset();
+        setTimeout(() => status.innerHTML = "", 5000);
+      } else {
+        status.innerHTML = "❌ Oops! Something went wrong.";
+        status.style.color = "red";
+      }
+    } catch (error) {
+      status.innerHTML = "⚠️ Network error. Please try again later.";
+      status.style.color = "orange";
+    }
+  });
+</script>
+</body>
+</html>
